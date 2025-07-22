@@ -18,12 +18,14 @@ use App\Http\Controllers\{
 |
 */
 
+
+
 Route::get('/budgets/create', [BudgetController::class, 'create'])->name('budgets.create');
+Route::post('/budgets', [BudgetController::class, 'store'])->name('budgets.store');
 Route::any('/budgets/search', [BudgetController::class, 'search'])->name('budgets.search');
 Route::put('/budgets/{id}', [BudgetController::class, 'update'])->name('budgets.update');
 Route::get('/budets/edit/{id}', [BudgetController::class, 'edit'])->name('budgets.edit');
 Route::delete('/budgets/{id}', [BudgetController::class, 'destroy'])->name('budgets.destroy');
-Route::post('/budgets', [BudgetController::class, 'store'])->name('budgets.store');
 Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
 Route::get('/budgets/{id}', [BudgetController::class, 'show'])->name('budgets.show');
 

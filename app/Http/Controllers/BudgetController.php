@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUpdateBudget;
+
+use App\Http\Resources\BudgetResource;
+use App\Http\Requests\StoreBudgetRequest;
+use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
 use Illuminate\Http\Request;
 
@@ -10,24 +13,42 @@ class BudgetController extends Controller
 {
     public function index()
     {
-        $budgets = Budget::orderBy('id', 'DESC')->paginate(5);
+        $budgets = Budget::orderBy('id', 'DESC')->paginate();
     
         return view ('admin.budgets.index', compact('budgets'));
     }
 
+
+        public function apiIndex()
+    {
+        return BudgetResource::collection(
+            Budget::orderBy('id', 'DESC')->paginate(10)
+        );
+    }
 
     public function create()
     {
         return view ('admin.budgets.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreBudgetRequest $request)
     {
-        $budget = Budget::create($request->all());
+        $budget = Budget::create($request->validated());
 
         return redirect ()
                     ->route('budgets.index')
                     ->with('message','Orçamento criado com sucesso');
+    }
+
+    
+
+    public function apiStore(StoreBudgetRequest $request)
+    {
+        $budget = Budget::create($request->validated());
+
+        return (new BudgetResource($budget))
+            ->response()
+            ->setStatusCode(201);
     }
 
 
@@ -42,6 +63,19 @@ class BudgetController extends Controller
         return view ('admin.budgets.show', compact('budget'));
 
     }
+
+
+    public function apiShow($id)
+    {
+        $budget = Budget::find($id);
+
+        if (!$budget) {
+            return response()->json(['message' => 'Orçamento não encontrado'], 404);
+        }
+
+        return new BudgetResource($budget);
+    }
+
 
 
     public function destroy($id)
@@ -59,6 +93,19 @@ class BudgetController extends Controller
                     ->with('message', "Orçamento deletado com sucesso");
     }
 
+    public function apiDestroy($id)
+    {
+        $budget = Budget::find($id);
+
+        if (!$budget) {
+            return response()->json(['message' => 'Orçamento não encontrado'], 404);
+        }
+
+        $budget->delete();
+
+        return response()->json(null, 204); // 204 No Content
+    }
+
 
     public function edit($id)
     {
@@ -72,7 +119,7 @@ class BudgetController extends Controller
     }
 
 
-    public function update(StoreUpdateBudget $request, $id)
+    public function update(UpdateBudgetRequest $request, $id)
     {   
          $budget = Budget::find($id);
 
@@ -80,12 +127,27 @@ class BudgetController extends Controller
             return redirect()->back()->with('error', 'Orçamento não encontrado');
         }
 
-        $budget->update($request->all());
+        $budget->update($request->validated());
 
         return redirect()
                     ->route('budgets.index')
                     ->with('message', 'Orçamento atualizado com sucesso');
     }
+
+
+    public function apiUpdate(UpdateBudgetRequest $request, $id)
+    {
+        $budget = Budget::find($id);
+
+        if (!$budget) {
+            return response()->json(['message' => 'Orçamento não encontrado'], 404);
+        }
+
+        $budget->update($request->validated());
+
+        return new BudgetResource($budget);
+    }
+
 
 
     public function search(Request $request)
@@ -109,9 +171,11 @@ class BudgetController extends Controller
         $query->where('seller', 'LIKE', '%' . $request->seller . '%');
     }
 
-    $budgets = $query->orderBy('budget_datetime', 'desc')->paginate(5);
+    $budgets = $query->orderBy('budget_datetime', 'desc')->paginate();
 
     return view('admin.budgets.index', compact('budgets', 'filters'));
 }
+
+
 
 }
