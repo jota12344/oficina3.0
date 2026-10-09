@@ -4,6 +4,26 @@ Projeto de estudos desenvolvido com **PHP e Laravel** para praticar o gerenciame
 
 > **Sobre o projeto:** desenvolvido como exercício prático com acompanhamento de uma playlist de aulas no YouTube e apoio do ChatGPT para esclarecer dúvidas e resolver problemas durante o desenvolvimento.
 
+## Demonstração do sistema
+
+As capturas abaixo mostram as principais telas da aplicação em execução local.
+
+### Listagem e pesquisa de orçamentos
+
+![Listagem de orçamentos e filtros de pesquisa](Captura%20de%20tela%20de%202026-10-09%2011-26-07.png)
+
+### Cadastro de orçamento
+
+![Formulário para cadastrar um novo orçamento](Captura%20de%20tela%20de%202026-10-09%2011-26-25.png)
+
+### Edição de orçamento
+
+![Formulário de edição de um orçamento](Captura%20de%20tela%20de%202026-10-09%2011-27-03.png)
+
+### Detalhes e opção de exclusão
+
+![Detalhes do orçamento e botão de exclusão](Captura%20de%20tela%20de%202026-10-09%2011-27-16.png)
+
 ## Funcionalidades
 
 - Cadastro de orçamentos.
