@@ -1,67 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Oficina 3.0 — Sistema de Gestão de Orçamentos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Projeto de estudos desenvolvido com **PHP e Laravel** para praticar o gerenciamento de orçamentos de uma oficina mecânica. A aplicação oferece uma **interface web** para operações do dia a dia e uma **API REST** que disponibiliza os dados em JSON.
 
-## About Laravel
+> **Sobre o projeto:** desenvolvido como exercício prático com acompanhamento de uma playlist de aulas no YouTube e apoio do ChatGPT para esclarecer dúvidas e resolver problemas durante o desenvolvimento.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funcionalidades
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Cadastro de orçamentos.
+- Listagem paginada de orçamentos, com os mais recentes primeiro.
+- Visualização dos detalhes de um orçamento.
+- Edição e exclusão de registros.
+- Pesquisa por cliente, vendedor e intervalo de datas na interface web.
+- API REST para listar, consultar, cadastrar, atualizar e excluir orçamentos.
+- Validação de dados por meio de Form Requests do Laravel.
+- Respostas JSON estruturadas com API Resources e paginação na listagem da API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tecnologias
 
-## Learning Laravel
+- **PHP 8.3** no ambiente Docker/Sail configurado no projeto.
+- **Laravel 9** — framework backend.
+- **MySQL 8** — banco de dados relacional.
+- **Laravel Sail e Docker Compose** — ambiente de desenvolvimento em contêineres.
+- **Blade** — renderização das páginas web.
+- **Laravel Mix, Tailwind CSS e Alpine.js** — ferramentas/dependências de frontend presentes no projeto.
+- **phpMyAdmin** — interface auxiliar para inspecionar o banco localmente.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Como executar localmente
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Pré-requisitos
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Git
+- Docker com Docker Compose
+- PHP e Composer disponíveis no computador para a instalação inicial das dependências, caso a pasta `vendor` ainda não exista
 
-## Laravel Sponsors
+### Instalação
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. Clone o repositório e acesse a pasta:
 
-### Premium Partners
+   ```bash
+   git clone https://github.com/jota12344/oficina3.0.git
+   cd oficina3.0
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+2. Instale as dependências PHP e crie o arquivo de configuração local:
 
-## Contributing
+   ```bash
+   composer install
+   cp .env.example .env
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Configure o `.env` para seu ambiente local. Confira especialmente estas variáveis:
 
-## Code of Conduct
+   ```dotenv
+   APP_NAME=Oficina
+   APP_URL=http://localhost:8080
+   APP_PORT=8080
+   DB_CONNECTION=mysql
+   DB_HOST=mysql
+   DB_PORT=3306
+   DB_DATABASE=oficina
+   DB_USERNAME=sail
+   DB_PASSWORD=password
+   WWWUSER=1000
+   WWWGROUP=1000
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   Os valores acima são **exemplos para desenvolvimento local**. Ajuste `WWWUSER` e `WWWGROUP` conforme o UID/GID do seu usuário Linux (`id -u` e `id -g`). Não utilize essas credenciais de exemplo em produção. O arquivo `.env` não deve ser versionado.
 
-## Security Vulnerabilities
+4. Inicie os contêineres:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   docker compose up -d
+   ```
 
-## License
+5. Gere a chave da aplicação e execute as migrations:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# oficina3.0
+   ```bash
+   ./vendor/bin/sail artisan key:generate
+   ./vendor/bin/sail artisan migrate
+   ```
+
+   **Atenção:** a configuração de banco precisa estar correta antes de executar as migrations. Não utilize `migrate:fresh` em um banco que contenha dados que você deseja preservar.
+
+6. Acesse a aplicação:
+
+   - **Orçamentos (interface web):** http://localhost:8080/budgets
+   - **API (listagem JSON):** http://localhost:8080/api/budgets
+   - **phpMyAdmin:** http://localhost:8081
+
+### Recursos de frontend
+
+O projeto contém dependências de frontend em `package.json`. Caso seja necessário recompilar os arquivos estáticos, instale as dependências com `npm install` e execute `npm run dev` no ambiente Node.js compatível com o projeto. Para uma instalação nova, vale verificar a compatibilidade das versões legadas do Laravel Mix antes de compilar.
+
+## API REST
+
+As rotas abaixo estão definidas em `routes/api.php`:
+
+| Método | Endpoint | Descrição |
+| --- | --- | --- |
+| `GET` | `/api/budgets` | Lista orçamentos, com paginação de 10 registros |
+| `GET` | `/api/budgets/{id}` | Consulta um orçamento pelo ID |
+| `POST` | `/api/budgets` | Cadastra um orçamento |
+| `PUT` | `/api/budgets/{id}` | Atualiza um orçamento |
+| `DELETE` | `/api/budgets/{id}` | Exclui um orçamento |
+
+Exemplo de consulta:
+
+```bash
+curl -H 'Accept: application/json' http://localhost:8080/api/budgets
+```
+
+A listagem utiliza `BudgetResource` para formatar os dados e inclui informações de paginação. As rotas de criação e atualização utilizam validação com `StoreBudgetRequest` e `UpdateBudgetRequest`.
+
+> **Observação de segurança:** as rotas de orçamentos da API estão declaradas sem middleware de autenticação específico. O projeto deve ser tratado como **ambiente de estudos/local**, não como sistema pronto para exposição pública ou uso em produção.
+
+## Estrutura principal
+
+```text
+app/
+  Http/
+    Controllers/BudgetController.php  # Ações web e da API
+    Resources/BudgetResource.php      # Formatação de respostas JSON
+    Requests/                        # Validação de entrada
+  Models/Budget.php                   # Modelo de orçamento
+routes/
+  web.php                             # Rotas da interface web
+  api.php                             # Rotas REST
+```
+
+## Aprendizados
+
+Durante o desenvolvimento, pratiquei conceitos de **CRUD**, rotas e controllers do Laravel, integração com MySQL, consultas com Eloquent, validação de requisições, paginação, respostas JSON com Resources e execução de aplicações com Docker.
+
+## Referência e créditos
+
+Projeto realizado para fins de aprendizado, acompanhando uma [playlist de aulas no YouTube](https://www.youtube.com/watch?v=rljzeWpPNYU&list=PLVSNL1PHDWvQwfqqY7XSobGuV39KsM46G), com consultas ao ChatGPT para tirar dúvidas e apoiar a resolução de problemas.
+
+## Autor
+
+**Jonathan Figueiredo de Brito**  
+[GitHub — jota12344](https://github.com/jota12344)
+
+---
+
+**Status:** projeto de estudos. Melhorias futuras podem incluir autenticação/autorização, testes automatizados, revisão de segurança e atualização de dependências.
